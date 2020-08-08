@@ -2,6 +2,7 @@ package com.efficom.efid.di.module
 
 import android.content.SharedPreferences
 import com.efficom.efid.data.network.AuthApi
+import com.efficom.efid.data.network.RoomApi
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -33,7 +34,7 @@ class NetworkModule {
     }
 
     @Provides
-    @Named("URL")
+    @Named(URL)
     fun provideServerUrl(sharedPreferences: SharedPreferences): String{
         sharedPreferences?.let {
             return it.getString("base_url", "https://www.google.fr/").toString()
@@ -41,8 +42,8 @@ class NetworkModule {
     }
 
     @Provides
-    @Named("LOGIN_RETROFIT")
-    fun provideRetrofit(client: OkHttpClient, @Named("URL") url: String): Retrofit =
+    @Named(LOGINRETROFIT)
+    fun provideLoginRetrofit(client: OkHttpClient, @Named("URL") url: String): Retrofit =
 
         Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
@@ -51,12 +52,30 @@ class NetworkModule {
                 .build()
 
     @Provides
+    @Named(MAINRETROFIT)
+    fun provideMainRetrofit(client: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .baseUrl("")
+            .build()
+
+    @Provides
     @Singleton
-    fun provideAuthApi(@Named("LOGIN_RETROFIT") retrofit: Retrofit): AuthApi {
+    fun provideAuthApi(@Named(LOGINRETROFIT) retrofit: Retrofit): AuthApi {
         return retrofit.create(AuthApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRoomApi(@Named(MAINRETROFIT) retrofit: Retrofit): RoomApi{
+        return retrofit.create(RoomApi::class.java)
     }
 
     companion object {
         private const val TIMEOUT: Long = 15
+        private const val URL: String = "URL"
+        private const val LOGINRETROFIT: String = "LOGIN_RETROFIT"
+        private const val MAINRETROFIT: String = "MAIN_RETROFIT"
     }
 }

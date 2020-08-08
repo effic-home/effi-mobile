@@ -1,9 +1,6 @@
 package com.efficom.efid.di.module
 
-import com.efficom.efid.ui.fragment.BaseFragment
-import com.efficom.efid.ui.fragment.HomeFragment
-import com.efficom.efid.ui.fragment.LoginFragment
-import com.efficom.efid.ui.fragment.RegisterFragment
+import com.efficom.efid.ui.fragment.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -21,4 +18,10 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     internal abstract fun contributeHomeFragment(): HomeFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun contributeRoomFragment(): RoomFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun contributeCalendarFragment(): CalendarFragment
 }
