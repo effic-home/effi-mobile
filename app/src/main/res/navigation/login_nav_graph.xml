@@ -10,9 +10,16 @@
         <action
             android:id="@+id/login_to_register"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgottenPasswordFragment"
+            app:destination="@id/forgottenPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.efficom.efid.ui.fragment.RegisterFragment"
         android:label="RegisterFragment" />
+    <fragment
+        android:id="@+id/forgottenPasswordFragment"
+        android:name="com.efficom.efid.ui.fragment.ForgottenPasswordFragment"
+        android:label="ForgottenPasswordFragment" />
 </navigation>

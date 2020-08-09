@@ -20,6 +20,8 @@
     <string name="login_wrong_email">Veuillez entrer un email valide</string>
     <string name="login_empty_field">Veuillez remplir tout les champs</string>
     <string name="login_wrong_login">Vos identifiants ne correspondent pas</string>
+    <string name="login_forgotten_password">Mot de passe oublié</string>
+    <string name="login_forgotten_mail">Entrer votre adresse email, un mail de réinitialisation de mot de passe vous sera envoyé.</string>
 
     <!-- HOME -->
     <string name="home_room">Salles Libres :</string>
