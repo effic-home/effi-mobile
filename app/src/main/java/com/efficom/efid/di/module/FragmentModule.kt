@@ -23,5 +23,11 @@ abstract class FragmentModule {
     internal abstract fun contributeHomeFragment(): HomeFragment
 
     @ContributesAndroidInjector
+    internal abstract fun contributeRoomFragment(): RoomFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun contributeCalendarFragment(): CalendarFragment
+
+    @ContributesAndroidInjector
     internal abstract fun contributeHistoryFragment(): HistoryFragment
 }

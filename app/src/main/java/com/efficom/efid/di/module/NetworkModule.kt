@@ -3,6 +3,7 @@ package com.efficom.efid.di.module
 import android.content.SharedPreferences
 import androidx.navigation.Navigator
 import com.efficom.efid.data.network.AuthApi
+import com.efficom.efid.data.network.RoomApi
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -34,6 +35,13 @@ class NetworkModule {
         return httpClient.build()
     }
 
+    @Provides
+    @Named("URL")
+    fun provideServerUrl(sharedPreferences: SharedPreferences): String{
+        sharedPreferences?.let {
+            return it.getString("base_url", "https://www.google.fr/").toString()
+        }
+    }
 
 
     @Provides
@@ -84,6 +92,12 @@ class NetworkModule {
 //    fun provideRoomApi(@Named(MAINRETROFIT) retrofit: Retrofit): AuthApi {
 //        return retrofit.create(AuthApi::class.java)
 //    }
+
+    @Provides
+    @Singleton
+    fun provideRoomApi(@Named(MAINRETROFIT) retrofit: Retrofit): RoomApi{
+        return retrofit.create(RoomApi::class.java)
+    }
 
     companion object {
         private const val SERVERURL = "https://www.google.fr/"
