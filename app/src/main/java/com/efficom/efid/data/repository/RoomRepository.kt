@@ -2,6 +2,7 @@ package com.efficom.efid.data.repository
 
 import android.util.Log
 import com.efficom.efid.data.model.sealedClass.ErrorRoomApi
+import com.efficom.efid.data.model.sealedClass.ReserveList
 import com.efficom.efid.data.model.sealedClass.RoomApiReturn
 import com.efficom.efid.data.model.sealedClass.RoomList
 import com.efficom.efid.data.network.RoomApi
@@ -16,7 +17,10 @@ class RoomRepository @Inject constructor(private val roomApi: RoomApi) {
         return try {
             val response = roomApi.getFreeRoom()
             if (response.isSuccessful){
-                RoomList(response.body()!!)
+                response.body()?.let {
+                    RoomList(it)
+                }
+                ErrorRoomApi
             }
             else {
                 ErrorRoomApi
@@ -27,20 +31,18 @@ class RoomRepository @Inject constructor(private val roomApi: RoomApi) {
         }
     }
 
-    suspend fun getRoomByDate(date: String): RoomApiReturn {
-
+    suspend fun getOldReserve(): RoomApiReturn {
         return try {
-            val response = roomApi.getRoomByDate(date)
+            val response = roomApi.getOldReserve()
             if (response.isSuccessful){
                 response.body()?.let {
-                    RoomList(it)
+                    ReserveList(it)
                 }
                 ErrorRoomApi
-            }
-            else{
+            }else {
                 ErrorRoomApi
             }
-        } catch (e: Exception){
+        }catch (e: Exception) {
             Timber.e(e)
             ErrorRoomApi
         }

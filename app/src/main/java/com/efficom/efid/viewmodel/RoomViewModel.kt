@@ -3,8 +3,10 @@ package com.efficom.efid.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.efficom.efid.data.model.Reservation
 import com.efficom.efid.data.model.Room
 import com.efficom.efid.data.model.sealedClass.ErrorRoomApi
+import com.efficom.efid.data.model.sealedClass.ReserveList
 import com.efficom.efid.data.model.sealedClass.RoomApiReturn
 import com.efficom.efid.data.model.sealedClass.RoomList
 import com.efficom.efid.data.repository.RoomRepository
@@ -22,8 +24,12 @@ class RoomViewModel @Inject constructor(private val app: Application,
     private val _freeRoomList = MutableLiveData<List<Room>>()
     val freeRoomList = _freeRoomList
 
+    private val _oldReserve = MutableLiveData<List<Reservation>>()
+    val oldReserve = _oldReserve
+
     init {
         getOpenRoom()
+        getOldReserv()
     }
 
     fun getOpenRoom(){
@@ -39,7 +45,12 @@ class RoomViewModel @Inject constructor(private val app: Application,
 
     fun getOldReserv(){
         GlobalScope.launch(Dispatchers.IO) {
-
+            roomRepository.getOldReserve()?.let { response ->
+                when(response){
+                    is ReserveList -> _oldReserve.postValue(response.data)
+                    is ErrorRoomApi -> _error.postValue(ErrorRoomApi)
+                }
+            }
         }
     }
 }

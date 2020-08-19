@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/EFID.iml" filepath="$PROJECT_DIR$/.idea/modules/EFID.iml" group="EFID" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/EFID-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/EFID-app.iml" group="EFID/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="EFID/app" />
+      <module fileurl="file://$PROJECT_DIR$/app/effi-mobile-app.iml" filepath="$PROJECT_DIR$/app/effi-mobile-app.iml" group="EFID/app" />
     </modules>
   </component>
 </project>
