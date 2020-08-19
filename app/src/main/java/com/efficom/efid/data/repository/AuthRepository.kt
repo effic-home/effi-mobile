@@ -16,8 +16,7 @@ class AuthRepository @Inject constructor(private val authApi: AuthApi) {
 
         return try {
 //            val url = "${loginRequest.server}/${loginRequest.email}/${loginRequest.password}"
-            val url = "https://run.mocky.io/v3/25f59736-9e42-4b46-b863-4b2862342c9f"
-            val response = authApi.authenticate(url)
+            val response = authApi.authenticate(loginRequest.email, loginRequest.password)
             if (response.isSuccessful){
                 LoginIsValid
             } else{
