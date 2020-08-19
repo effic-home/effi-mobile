@@ -24,23 +24,9 @@ class RoomViewModel @Inject constructor(private val app: Application,
 
     init {
         getOpenRoom()
-
-        val rooms = mutableListOf<Room>()
-        val r1 = Room(0,"salle 1", 0, "normal", 0, 21)
-        rooms.add(r1)
-        val r2 = Room(0,"salle 2", 0, "normal", 0, 21)
-        rooms.add(r2)
-        val r3 = Room(0,"salle 3", 0, "normal", 0, 21)
-        rooms.add(r3)
-        val r4 = Room(0,"salle 4", 0, "normal", 0, 21)
-        rooms.add(r4)
-        val r5 = Room(0,"salle 5", 0, "normal", 0, 21)
-        rooms.add(r5)
-
-        _freeRoomList.postValue(rooms)
     }
 
-    private fun getOpenRoom(){
+    fun getOpenRoom(){
         GlobalScope.launch(Dispatchers.IO) {
             roomRepository.getFreeRoom().let {response ->
                 when(response){
@@ -48,11 +34,10 @@ class RoomViewModel @Inject constructor(private val app: Application,
                     is ErrorRoomApi -> _error.postValue(ErrorRoomApi)
                 }
             }
-
         }
     }
 
-    private fun getRoomByDate(){
+    fun getOldReserv(){
         GlobalScope.launch(Dispatchers.IO) {
 
         }

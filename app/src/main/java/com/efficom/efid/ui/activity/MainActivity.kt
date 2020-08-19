@@ -28,7 +28,7 @@ class MainActivity : BaseActivity() {
         bottom_nav_bar.setOnNavigationItemSelectedListener {item ->
             when(item.itemId){
                 R.id.item_reserv -> {
-                    navigateTo(R.id.roomFragment)
+                    navigateTo(R.id.historyFragment)
                     true
                 }
                 R.id.item_home -> {

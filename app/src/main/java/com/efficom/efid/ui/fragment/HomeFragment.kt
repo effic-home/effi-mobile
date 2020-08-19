@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.efficom.efid.R
 import com.efficom.efid.adapter.RoomAdapter
 import com.efficom.efid.data.model.Room
+import com.efficom.efid.data.model.sealedClass.AuthApiReturn
+import com.efficom.efid.data.model.sealedClass.LoginEmailInvalid
+import com.efficom.efid.data.model.sealedClass.LoginEmptyField
+import com.efficom.efid.data.model.sealedClass.LoginIsWrong
 import com.efficom.efid.viewmodel.RoomViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.menu_custom_layout.view.*
@@ -41,8 +45,17 @@ class HomeFragment: BaseFragment() {
         setupDate()
 
         viewModel.freeRoomList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            home_refresh_layout.isRefreshing = false
             setupFreeRoom(it)
         })
+        viewModel.error.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            home_refresh_layout.isRefreshing = false
+            displayMainErrorMessage(it)
+        })
+
+        home_refresh_layout.setOnRefreshListener {
+            viewModel.getOpenRoom()
+        }
     }
 
     private fun setupActionBar(){

@@ -8,15 +8,15 @@
         android:name="com.efficom.efid.ui.fragment.HomeFragment"
         android:label="HomeFragment" >
         <action
-            android:id="@+id/action_homeFragment_to_roomFragment2"
-            app:destination="@id/roomFragment" />
+            android:id="@+id/action_homeFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
     </fragment>
     <fragment
-        android:id="@+id/roomFragment"
-        android:name="com.efficom.efid.ui.fragment.RoomFragment"
-        android:label="RoomFragment" >
+        android:id="@+id/historyFragment"
+        android:name="com.efficom.efid.ui.fragment.HistoryFragment"
+        android:label="HistoryFragment" >
         <action
-            android:id="@+id/action_roomFragment_to_homeFragment2"
+            android:id="@+id/action_historyFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

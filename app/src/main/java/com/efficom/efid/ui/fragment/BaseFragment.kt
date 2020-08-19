@@ -7,6 +7,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.efficom.efid.R
+import com.efficom.efid.data.model.sealedClass.*
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -35,6 +37,13 @@ abstract class BaseFragment: DaggerFragment() {
 
     fun hideKeyboard() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view!!.windowToken, 0)
+        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+    }
+
+    fun displayMainErrorMessage(error: RoomApiReturn){
+        val message: String = when(error){
+            else -> ""
+        }
+        displayToast(message, context)
     }
 }
