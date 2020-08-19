@@ -22,7 +22,7 @@ class SplashScreenActivity: BaseActivity() {
 
 
     private fun isJwtAvailable() {
-        if (true){
+        if (false){
             redirectTo(LoginActivity::class.java)
         }
         else {

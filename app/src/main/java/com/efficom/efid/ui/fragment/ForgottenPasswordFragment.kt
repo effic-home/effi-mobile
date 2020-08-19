@@ -33,7 +33,7 @@ class ForgottenPasswordFragment : BaseFragment(){
         (activity as AppCompatActivity).supportActionBar?.let {
             it.show()
             it.setDisplayHomeAsUpEnabled(true)
-            it.title = ""
+            it.setDisplayShowTitleEnabled(false)
         }
 
 
