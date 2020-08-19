@@ -11,7 +11,7 @@
             android:id="@+id/login_to_register"
             app:destination="@id/registerFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_forgottenPasswordFragment"
+            android:id="@+id/login_to_forgot_password"
             app:destination="@id/forgottenPasswordFragment" />
     </fragment>
     <fragment

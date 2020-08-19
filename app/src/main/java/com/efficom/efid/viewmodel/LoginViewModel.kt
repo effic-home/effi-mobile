@@ -31,7 +31,7 @@ class LoginViewModel @Inject constructor(
 
         _waitingVisibility.postValue(true)
 
-        if (loginRequest.email.isNotEmpty() && loginRequest.password.isNotEmpty() && loginRequest.server.isNotEmpty()){
+        if (loginRequest.email.isNotEmpty() && loginRequest.password.isNotEmpty()){
             if (isEmailValid(loginRequest.email)){
                 GlobalScope.launch(Dispatchers.IO) {
                     when(authRepository.authenticateUser(loginRequest)){
@@ -54,7 +54,6 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun displayError(error: AuthApiReturn){
-        _waitingVisibility.postValue(true)
         _errorMessage.postValue(error)
     }
 

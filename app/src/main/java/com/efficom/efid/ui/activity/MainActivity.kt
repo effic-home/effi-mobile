@@ -7,6 +7,7 @@ import android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 import android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
 import androidx.core.content.ContextCompat
 import com.efficom.efid.R
+import kotlinx.android.synthetic.main.activity_login.*
 
 
 class MainActivity : BaseActivity() {
@@ -16,5 +17,9 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         window.navigationBarColor = ContextCompat.getColor(this, R.color.colorAccent)
+//        setSupportActionBar(login_toolbar)
+//        supportActionBar?.let {
+//            it.setDisplayHomeAsUpEnabled(true)
+//        }
     }
 }

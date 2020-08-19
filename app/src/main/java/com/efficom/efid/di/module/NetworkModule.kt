@@ -79,14 +79,14 @@ class NetworkModule {
             .baseUrl(SERVERURL)
             .build()
 
-    @Provides
-    @Singleton
-    fun provideRoomApi(@Named(MAINRETROFIT) retrofit: Retrofit): AuthApi {
-        return retrofit.create(AuthApi::class.java)
-    }
+//    @Provides
+//    @Singleton
+//    fun provideRoomApi(@Named(MAINRETROFIT) retrofit: Retrofit): AuthApi {
+//        return retrofit.create(AuthApi::class.java)
+//    }
 
     companion object {
-        private const val SERVERURL = ""
+        private const val SERVERURL = "https://www.google.fr/"
         private const val TIMEOUT: Long = 15
         private const val LOGINHTTP = "LOGIN_HTTP"
         private const val LOGINRETROFIT = "LOGIN_RETROFIT"

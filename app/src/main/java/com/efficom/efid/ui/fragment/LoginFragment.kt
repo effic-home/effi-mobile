@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -51,6 +52,7 @@ class LoginFragment: BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.hide()
         setupClickOutside(login_layout)
         //setupUrl()
 
@@ -64,6 +66,10 @@ class LoginFragment: BaseFragment() {
             changeSpinnerVisibility()
             displayErrorMessage(it)
         })
+
+        login_forgot_password.setOnClickListener {
+            navigateToForgotPassword()
+        }
     }
 
     private fun navigateToMainActivity(){
@@ -76,23 +82,33 @@ class LoginFragment: BaseFragment() {
         findNavController().navigate(LoginFragmentDirections.loginToRegister())
     }
 
+    private fun navigateToForgotPassword(){
+        findNavController().navigate(LoginFragmentDirections.loginToForgotPassword())
+    }
+
     private fun changeSpinnerVisibility(){
 
         if (login_spinner.visibility == View.GONE){
             login_spinner.visibility = View.VISIBLE
             input_email.isEnabled = false
             input_password.isEnabled = false
-            //login_editTextServer.isEnabled = false
             login_connect_btn.isEnabled = false
-            //login_enrolment_btn.isEnabled = false
+            login_forgot_password.isEnabled = false
+            input_email.alpha = 0.75F
+            input_password.alpha = 0.75F
+            login_connect_btn.alpha = 0.75F
+            login_forgot_password.alpha = 0.75F
         }
         else {
             login_spinner.visibility = View.GONE
             input_email.isEnabled = true
             input_password.isEnabled = true
-            //login_editTextServer.isEnabled = true
             login_connect_btn.isEnabled = true
-            //login_enrolment_btn.isEnabled = true
+            login_forgot_password.isEnabled = true
+            input_email.alpha = 1F
+            input_password.alpha = 1F
+            login_connect_btn.alpha = 1F
+            login_forgot_password.alpha = 1F
         }
     }
 
