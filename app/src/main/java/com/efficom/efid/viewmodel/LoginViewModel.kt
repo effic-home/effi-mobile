@@ -27,28 +27,20 @@ class LoginViewModel @Inject constructor(
     private val _canConnectUser = MutableLiveData<String>()
     val canConnectUser = _canConnectUser
 
-    private val _saveServerUrl = MutableLiveData<String>()
-    val saveServerUrl = _saveServerUrl
-
     fun connectUser(loginRequest : LoginRequest) {
-
-        GlobalScope.launch(Dispatchers.IO) {
-            when(authRepository.authenticateUser(loginRequest)){
-                is LoginIsValid -> _canConnectUser.postValue("")
-                else -> {
-                    displayError(LoginIsWrong)
-                }
-            }
-        }
-    }
-
-    fun setUrlServer(loginRequest : LoginRequest){
 
         _waitingVisibility.postValue(true)
 
-        if (loginRequest.email.isNotEmpty() && loginRequest.password.isNotEmpty() && loginRequest.server.isNotEmpty()){
+        if (loginRequest.email.isNotEmpty() && loginRequest.password.isNotEmpty()){
             if (isEmailValid(loginRequest.email)){
-                _saveServerUrl.postValue(loginRequest.server)
+                GlobalScope.launch(Dispatchers.IO) {
+                    when(authRepository.authenticateUser(loginRequest)){
+                        is LoginIsValid -> _canConnectUser.postValue("")
+                        else -> {
+                            displayError(LoginIsWrong)
+                        }
+                    }
+                }
             }
             else {
                 displayError(LoginEmailInvalid)
@@ -57,10 +49,11 @@ class LoginViewModel @Inject constructor(
         else {
             displayError(LoginEmptyField)
         }
+
+
     }
 
     private fun displayError(error: AuthApiReturn){
-        _waitingVisibility.postValue(true)
         _errorMessage.postValue(error)
     }
 
