@@ -1,6 +1,7 @@
 package com.efficom.efid.di.component
 
 import android.app.Application
+import com.efficom.efid.MainApplication
 import com.efficom.efid.di.module.*
 import dagger.BindsInstance
 import dagger.Component
@@ -22,9 +23,9 @@ import javax.inject.Singleton
 )
 
 
-interface AppComponent: AndroidInjector<DaggerApplication> {
+interface AppComponent: AndroidInjector<MainApplication> {
 
-    override fun inject(app: DaggerApplication)
+    override fun inject(app: MainApplication)
 
     @Component.Builder
     interface Builder {

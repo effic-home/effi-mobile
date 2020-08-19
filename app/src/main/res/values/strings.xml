@@ -1,3 +1,30 @@
 <resources>
+
+    <!-- GENERIC -->
     <string name="app_name">EFID</string>
+    <string name="generic_validate">Valider</string>
+    <string name="generic_return">Retour</string>
+
+    <!-- LOGIN -->
+    <string name="login_title">CONNEXION</string>
+    <string name="login_button">Se connecter</string>
+    <string name="login_enrolment_button">S\'inscrire</string>
+    <string name="login_username">Email</string>
+    <string name="login_password">Password</string>
+    <string name="login_server">Server</string>
+    <string name="login_confirm_password">Confirm Password</string>
+    <string name="login_nom">Nom</string>
+    <string name="login_prenom">Prénom</string>
+    <string name="login_classe">Classe :</string>
+    <string name="login_register">INSCRIPTION</string>
+    <string name="login_wrong_email">Veuillez entrer un email valide</string>
+    <string name="login_empty_field">Veuillez remplir tout les champs</string>
+    <string name="login_wrong_login">Vos identifiants ne correspondent pas</string>
+    <string name="login_forgotten_password">Mot de passe oublié</string>
+    <string name="login_forgotten_mail">Entrer votre adresse email, un mail de réinitialisation de mot de passe vous sera envoyé.</string>
+
+    <!-- HOME -->
+    <string name="home_room">Salles Libres :</string>
+    <string name="home_reserve">Vos réservations :</string>
+
 </resources>
