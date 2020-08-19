@@ -1,20 +1,21 @@
 package com.efficom.efid.ui.fragment
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.efficom.efid.R
 import com.efficom.efid.data.model.request.LoginRequest
-import com.efficom.efid.data.model.sealedClass.*
+import com.efficom.efid.data.model.sealedClass.AuthApiReturn
+import com.efficom.efid.data.model.sealedClass.LoginEmailInvalid
+import com.efficom.efid.data.model.sealedClass.LoginEmptyField
+import com.efficom.efid.data.model.sealedClass.LoginIsWrong
 import com.efficom.efid.databinding.FragmentLoginBinding
 import com.efficom.efid.ui.activity.MainActivity
 import com.efficom.efid.viewmodel.LoginViewModel
@@ -51,15 +52,8 @@ class LoginFragment: BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupClickOutside(login_layout)
-        setupUrl()
+        //setupUrl()
 
-        login_enrolment_btn.setOnClickListener {
-            navigateToRegister()
-        }
-
-        viewModel.saveServerUrl.observe(viewLifecycleOwner, Observer {
-            saveServerUrl(it)
-        })
         viewModel.canConnectUser.observe(viewLifecycleOwner, Observer {
             navigateToMainActivity()
         })
@@ -70,24 +64,6 @@ class LoginFragment: BaseFragment() {
             changeSpinnerVisibility()
             displayErrorMessage(it)
         })
-    }
-
-    private fun setupUrl(){
-        val serverUrl = sharedPreferences.getString("base_url", "")
-        if (!serverUrl.isNullOrEmpty()){
-            login_editTextServer.setText(serverUrl)
-        }
-    }
-
-    private fun saveServerUrl(url: String) {
-        if (sharedPreferences.getString("base_url", "").isNullOrEmpty()){
-            sharedPreferences?.let {
-                val editor = it.edit()
-                editor.putString("base_url", url)
-                editor.commit()
-            }
-        }
-        viewModel.connectUser(loginRequest)
     }
 
     private fun navigateToMainActivity(){
@@ -104,19 +80,19 @@ class LoginFragment: BaseFragment() {
 
         if (login_spinner.visibility == View.GONE){
             login_spinner.visibility = View.VISIBLE
-            login_editTextTextEmailAddress.isEnabled = false
-            login_editTextTextPassword.isEnabled = false
-            login_editTextServer.isEnabled = false
+            input_email.isEnabled = false
+            input_password.isEnabled = false
+            //login_editTextServer.isEnabled = false
             login_connect_btn.isEnabled = false
-            login_enrolment_btn.isEnabled = false
+            //login_enrolment_btn.isEnabled = false
         }
         else {
             login_spinner.visibility = View.GONE
-            login_editTextTextEmailAddress.isEnabled = true
-            login_editTextTextPassword.isEnabled = true
-            login_editTextServer.isEnabled = true
+            input_email.isEnabled = true
+            input_password.isEnabled = true
+            //login_editTextServer.isEnabled = true
             login_connect_btn.isEnabled = true
-            login_enrolment_btn.isEnabled = true
+            //login_enrolment_btn.isEnabled = true
         }
     }
 
