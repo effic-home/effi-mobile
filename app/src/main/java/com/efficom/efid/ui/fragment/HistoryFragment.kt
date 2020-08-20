@@ -49,7 +49,6 @@ class HistoryFragment: BaseFragment() {
         val viewManager = LinearLayoutManager(context)
         val viewAdapter = ReserveAdapter(data)
 
-
         history_recycler_view.apply {
             setHasFixedSize(true)
             layoutManager = viewManager
