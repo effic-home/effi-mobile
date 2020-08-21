@@ -64,9 +64,9 @@ class RoomRepository @Inject constructor(private val roomApi: RoomApi) {
 
     suspend fun getRoom(): RoomApiReturn{
         return try {
-            val response = roomApi.getFreeRoomByDate(date)
+            val response = roomApi.getRoom()
             if (response.isSuccessful){
-                ReservedRoomList(response.body()!!)
+                RoomList(response.body()!!)
             }else {
                 ErrorRoomApi
             }

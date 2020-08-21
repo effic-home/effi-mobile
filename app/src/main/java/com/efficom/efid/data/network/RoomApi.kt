@@ -17,4 +17,7 @@ interface RoomApi {
 
     @GET("salles/reservees/{date}")
     suspend fun getFreeRoomByDate(@Path("date") date: String): Response<List<ReservedRoom>>
+
+    @GET("salles/")
+    suspend fun getRoom(): Response<List<Room>>
 }

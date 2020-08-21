@@ -4,11 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.efficom.efid.data.model.Reservation
+import com.efficom.efid.data.model.ReservedRoom
 import com.efficom.efid.data.model.Room
-import com.efficom.efid.data.model.sealedClass.ErrorRoomApi
-import com.efficom.efid.data.model.sealedClass.ReserveList
-import com.efficom.efid.data.model.sealedClass.RoomApiReturn
-import com.efficom.efid.data.model.sealedClass.RoomList
+import com.efficom.efid.data.model.sealedClass.*
 import com.efficom.efid.data.repository.RoomRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -63,10 +61,31 @@ class RoomViewModel @Inject constructor(private val app: Application,
         GlobalScope.launch(Dispatchers.IO) {
             roomRepository.getFreeRoomByDate(date).let {response ->
                 when(response){
-                    is  RoomList -> _freeRoomByDate.postValue(response.data)
+                    is  ReservedRoomList -> getAllFreeRoom(response.data)
                     is  ErrorRoomApi ->_error.postValue(ErrorRoomApi)
                 }
+            }
+        }
+    }
 
+    private fun getAllFreeRoom(reservedRoom: List<ReservedRoom>){
+        GlobalScope.launch(Dispatchers.IO) {
+            roomRepository.getRoom().let { response ->
+                when(response){
+                    is RoomList -> {
+                        val reservedRoomList = mutableListOf<Room>()
+                        reservedRoom.forEach { reservedRoom ->
+                            response.data.forEach { room ->
+                                if (reservedRoom.id_salle != room.id_classe){
+                                    reservedRoomList.add(room)
+                                }
+                            }
+                        }.let {
+                            _freeRoomByDate.postValue(reservedRoomList)
+                        }
+                    }
+                    is ErrorRoomApi -> _error.postValue(response)
+                }
             }
         }
     }
