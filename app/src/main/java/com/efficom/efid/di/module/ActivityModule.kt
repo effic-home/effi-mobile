@@ -1,9 +1,6 @@
 package com.efficom.efid.di.module
 
-import com.efficom.efid.ui.activity.BaseActivity
-import com.efficom.efid.ui.activity.LoginActivity
-import com.efficom.efid.ui.activity.MainActivity
-import com.efficom.efid.ui.activity.SplashScreenActivity
+import com.efficom.efid.ui.activity.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -21,4 +18,7 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector
     internal abstract fun contributeLoginActivity(): LoginActivity
+
+    @ContributesAndroidInjector
+    internal abstract fun contributeReservationActivity(): ReservationActivity
 }

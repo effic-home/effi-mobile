@@ -11,6 +11,7 @@ import com.efficom.efid.R
 import com.efficom.efid.adapter.ReserveAdapter
 import com.efficom.efid.adapter.RoomAdapter
 import com.efficom.efid.data.model.Reservation
+import com.efficom.efid.data.model.sealedClass.NoInternet
 import com.efficom.efid.viewmodel.RoomViewModel
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -37,22 +38,36 @@ class HistoryFragment: BaseFragment() {
 
         viewModel.oldReserve.observe(viewLifecycleOwner, Observer {
             setupOldReserve(it)
+            history_no_place.visibility = View.GONE
             history_refreshlayout.isRefreshing = false
         })
         viewModel.error.observe(viewLifecycleOwner, Observer {
-            displayMainErrorMessage(it)
-            history_refreshlayout.isRefreshing = false
+            history_no_place.visibility = View.VISIBLE
+            history_no_place.z = 10F
+            if (isInternetAvailable()){
+                displayMainErrorMessage(it)
+            }
+            else{
+                displayMainErrorMessage(NoInternet)
+            }
         })
     }
 
     private fun setupOldReserve(data: List<Reservation>) {
-        val viewManager = LinearLayoutManager(context)
-        val viewAdapter = ReserveAdapter(data)
 
-        history_recycler_view.apply {
-            setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter = viewAdapter
+        if (data.isEmpty()){
+            history_no_place.visibility = View.VISIBLE
+            history_no_place.z = 10F
+        } else{
+            val viewManager = LinearLayoutManager(context)
+            val viewAdapter = ReserveAdapter(data)
+
+            history_recycler_view.apply {
+                setHasFixedSize(true)
+                layoutManager = viewManager
+                adapter = viewAdapter
+            }
         }
+
     }
 }

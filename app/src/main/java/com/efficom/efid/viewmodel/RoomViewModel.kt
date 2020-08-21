@@ -18,6 +18,8 @@ import javax.inject.Inject
 class RoomViewModel @Inject constructor(private val app: Application,
     private val roomRepository: RoomRepository): AndroidViewModel(app) {
 
+    lateinit var actualRoom: Room
+
     private val _error = MutableLiveData<RoomApiReturn>()
     val error = _error
 
@@ -26,6 +28,9 @@ class RoomViewModel @Inject constructor(private val app: Application,
 
     private val _oldReserve = MutableLiveData<List<Reservation>>()
     val oldReserve = _oldReserve
+
+    private val _freeRoomByDate = MutableLiveData<List<Room>>()
+    val freeRoomByDate = _freeRoomByDate
 
     init {
         getOpenRoom()
@@ -45,11 +50,23 @@ class RoomViewModel @Inject constructor(private val app: Application,
 
     fun getOldReserv(){
         GlobalScope.launch(Dispatchers.IO) {
-            roomRepository.getOldReserve()?.let { response ->
+            roomRepository.getOldReserve().let { response ->
                 when(response){
                     is ReserveList -> _oldReserve.postValue(response.data)
                     is ErrorRoomApi -> _error.postValue(ErrorRoomApi)
                 }
+            }
+        }
+    }
+
+    fun getFreeRoomByDate(date: String){
+        GlobalScope.launch(Dispatchers.IO) {
+            roomRepository.getFreeRoomByDate(date).let {response ->
+                when(response){
+                    is  RoomList -> _freeRoomByDate.postValue(response.data)
+                    is  ErrorRoomApi ->_error.postValue(ErrorRoomApi)
+                }
+
             }
         }
     }

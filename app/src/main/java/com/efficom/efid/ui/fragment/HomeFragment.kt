@@ -13,10 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.efficom.efid.R
 import com.efficom.efid.adapter.RoomAdapter
 import com.efficom.efid.data.model.Room
-import com.efficom.efid.data.model.sealedClass.AuthApiReturn
-import com.efficom.efid.data.model.sealedClass.LoginEmailInvalid
-import com.efficom.efid.data.model.sealedClass.LoginEmptyField
-import com.efficom.efid.data.model.sealedClass.LoginIsWrong
+import com.efficom.efid.data.model.sealedClass.*
 import com.efficom.efid.viewmodel.RoomViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.menu_custom_layout.view.*
@@ -40,29 +37,32 @@ class HomeFragment: BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setupActionBar()
+
+        (activity as AppCompatActivity).supportActionBar?.customView?.tvTitle?.text = "Accueil"
+
         setupClickOutside(home_layout)
         setupDate()
 
         viewModel.freeRoomList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             home_refresh_layout.isRefreshing = false
             setupFreeRoom(it)
+            home_no_place.visibility = View.GONE
         })
         viewModel.error.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             home_refresh_layout.isRefreshing = false
-            displayMainErrorMessage(it)
+            home_no_place.visibility = View.VISIBLE
+            home_no_place.z = 10F
+            if (isInternetAvailable()){
+                displayMainErrorMessage(it)
+            }
+            else{
+                displayMainErrorMessage(NoInternet)
+            }
+
         })
 
         home_refresh_layout.setOnRefreshListener {
             viewModel.getOpenRoom()
-        }
-    }
-
-    private fun setupActionBar(){
-        (activity as AppCompatActivity).supportActionBar?.let {
-            it.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
-            it.setCustomView(R.layout.menu_custom_layout)
-            it.customView.tvTitle.text = "Accueil"
         }
     }
 
@@ -74,14 +74,20 @@ class HomeFragment: BaseFragment() {
     }
 
     private fun setupFreeRoom(rooms: List<Room>){
-        val viewManager = LinearLayoutManager(context)
-        val viewAdapter = RoomAdapter(rooms.take(5))
 
+        if (rooms.isEmpty()){
+            home_no_place.visibility = View.VISIBLE
+            home_no_place.z = 10F
+        }
+        else{
+            val viewManager = LinearLayoutManager(context)
+            val viewAdapter = RoomAdapter(rooms.take(5), requireContext())
 
-        home_recycler_view.apply {
-            setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter = viewAdapter
+            home_recycler_view.apply {
+                setHasFixedSize(true)
+                layoutManager = viewManager
+                adapter = viewAdapter
+            }
         }
     }
 }

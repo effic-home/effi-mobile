@@ -1,17 +1,17 @@
 package com.efficom.efid.viewmodel
 
 import android.app.Application
-import android.text.TextUtils
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import com.efficom.efid.data.model.User
 import com.efficom.efid.data.model.request.LoginRequest
 import com.efficom.efid.data.model.sealedClass.*
 import com.efficom.efid.data.repository.AuthRepository
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
@@ -24,7 +24,7 @@ class LoginViewModel @Inject constructor(
     private val _errorMessage = MutableLiveData<AuthApiReturn>()
     val errorMessage = _errorMessage
 
-    private val _canConnectUser = MutableLiveData<String>()
+    private val _canConnectUser = MutableLiveData<User>()
     val canConnectUser = _canConnectUser
 
     fun connectUser(loginRequest : LoginRequest) {
@@ -33,13 +33,19 @@ class LoginViewModel @Inject constructor(
 
         if (loginRequest.email.isNotEmpty() && loginRequest.password.isNotEmpty()){
             if (isEmailValid(loginRequest.email)){
+                loginRequest.password = hash(loginRequest.password)
                 GlobalScope.launch(Dispatchers.IO) {
-                    when(authRepository.authenticateUser(loginRequest)){
-                        is LoginIsValid -> _canConnectUser.postValue("")
-                        else -> {
-                            displayError(LoginIsWrong)
+                    authRepository.authenticateUser(loginRequest).let {response ->
+                        when(response){
+                            is LoginIsValid -> {
+                                _canConnectUser.postValue(response.data)
+                            }
+                            else -> {
+                                displayError(LoginIsWrong)
+                            }
                         }
                     }
+
                 }
             }
             else {
@@ -51,6 +57,13 @@ class LoginViewModel @Inject constructor(
         }
 
 
+    }
+
+    private fun hash(mdp: String): String {
+        val bytes = mdp.toByteArray()
+        val md = MessageDigest.getInstance("SHA-256")
+        val digest = md.digest(bytes)
+        return digest.fold("", { str, it -> str + "%02x".format(it) })
     }
 
     private fun displayError(error: AuthApiReturn){

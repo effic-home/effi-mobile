@@ -35,14 +35,6 @@ class NetworkModule {
         return httpClient.build()
     }
 
-    @Provides
-    @Named("URL")
-    fun provideServerUrl(sharedPreferences: SharedPreferences): String{
-        sharedPreferences?.let {
-            return it.getString("base_url", "https://www.google.fr/").toString()
-        }
-    }
-
 
     @Provides
     @Named(LOGINRETROFIT)
@@ -100,7 +92,7 @@ class NetworkModule {
     }
 
     companion object {
-        private const val SERVERURL = "https://www.google.fr/"
+        private const val SERVERURL = "https://api.apollonian.fr/"
         private const val TIMEOUT: Long = 15
         private const val LOGINHTTP = "LOGIN_HTTP"
         private const val LOGINRETROFIT = "LOGIN_RETROFIT"

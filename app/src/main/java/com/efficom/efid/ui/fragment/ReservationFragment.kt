@@ -42,29 +42,44 @@ class ReservationFragment: BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        updateLabel()
 
-        reserve_tv_date.setOnClickListener {
+        reserve_image_date.setOnClickListener {
             DatePickerDialog(requireContext(), date, calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
         }
 
-        viewModel.freeRoomList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        reserve_prev_btn.setOnClickListener {
+            calendar.add(Calendar.DAY_OF_MONTH, -1)
+            updateLabel()
+        }
+
+        reserve_next_btn.setOnClickListener {
+            calendar.add(Calendar.DAY_OF_MONTH, +1)
+            updateLabel()
+        }
+
+        viewModel.freeRoomByDate.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             setupFreeRoomList(it)
+        })
+        viewModel.error.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            displayMainErrorMessage(it)
         })
     }
 
     private fun updateLabel(){
         val formatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-        reserve_tv_date.setText(formatter.format(calendar.time))
+        val datePick = formatter.format(calendar.time)
+        reserve_tv_date.setText(datePick)
+        viewModel.getFreeRoomByDate(datePick)
     }
 
     private fun setupFreeRoomList(rooms: List<Room>){
         val viewManager = LinearLayoutManager(context)
-        val viewAdapter = RoomAdapter(rooms)
+        val viewAdapter = RoomAdapter(rooms, requireContext())
 
 
-        home_recycler_view.apply {
-            setHasFixedSize(true)
+        reserve_recycler.apply {
             layoutManager = viewManager
             adapter = viewAdapter
         }

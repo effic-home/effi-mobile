@@ -24,4 +24,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     internal abstract fun contributeHistoryFragment(): HistoryFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun contributeReservationFragment(): ReservationFragment
 }

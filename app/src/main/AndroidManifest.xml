@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.efficom.efid">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -25,6 +26,8 @@
         <activity android:name=".ui.activity.BaseActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.ReservationActivity"
             android:screenOrientation="portrait"/>
     </application>
 

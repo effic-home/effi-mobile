@@ -11,7 +11,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:layout_marginStart="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/item_divider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_goneMarginStart="16dp"
@@ -21,6 +21,7 @@
         android:id="@+id/item_tv_room"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         app:layout_constraintStart_toEndOf="@id/item_image"
         app:layout_constraintTop_toTopOf="@id/item_image"
         app:layout_goneMarginStart="32dp" />
@@ -30,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_goneMarginTop="8dp"
-        app:layout_constraintStart_toEndOf="@id/item_tv_room"
+        app:layout_constraintStart_toStartOf="@id/item_tv_room"
         app:layout_constraintTop_toBottomOf="@id/item_tv_room"
         app:layout_goneMarginStart="32dp" />
 
@@ -44,5 +45,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_goneMarginStart="32dp"
         app:layout_goneMarginTop="8dp" />
+
+    <View
+        android:id="@+id/item_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="@id/item_image"
+        app:layout_constraintEnd_toStartOf="@id/item_tv_date"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

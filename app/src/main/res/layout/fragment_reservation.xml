@@ -8,10 +8,10 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="64dp"
         app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,10 +22,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <Space
+                android:id="@+id/reservation_space"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/reserve_image_date"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_marginStart="16dp"
                 app:layout_constraintBottom_toBottomOf="@id/reserve_tv_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/reserve_tv_date"
@@ -33,16 +42,16 @@
 
             <EditText
                 android:id="@+id/reserve_tv_date"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/custom_border_tv"
-                android:clickable="true"
-                android:inputType="date"
-                android:editable="false"
+                android:inputType="none"
+                android:enabled="false"
+                android:padding="8dp"
                 app:layout_constraintStart_toEndOf="@id/reserve_image_date"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/reservation_space" />
 
             <ImageButton
                 android:id="@+id/reserve_prev_btn"
@@ -65,10 +74,11 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/reserve_recycler"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/reserve_next_btn"
                 app:layout_constraintStart_toStartOf="@id/reserve_image_date"
                 app:layout_constraintTop_toBottomOf="@id/reserve_next_btn" />

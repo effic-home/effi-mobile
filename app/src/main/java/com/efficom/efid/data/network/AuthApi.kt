@@ -1,5 +1,6 @@
 package com.efficom.efid.data.network
 
+import com.efficom.efid.data.model.User
 import com.efficom.efid.data.model.request.LoginRequest
 import retrofit2.Call
 import retrofit2.Response
@@ -12,5 +13,5 @@ public interface AuthApi {
 
     @GET("connexion/{username}/{password}")
     suspend fun authenticate(@Path("username") username: String,
-                             @Path("password") password: String): Response<Void>
+                             @Path("password") password: String): Response<List<User>>
 }

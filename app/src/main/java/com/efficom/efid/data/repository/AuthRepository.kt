@@ -18,7 +18,7 @@ class AuthRepository @Inject constructor(private val authApi: AuthApi) {
 //            val url = "${loginRequest.server}/${loginRequest.email}/${loginRequest.password}"
             val response = authApi.authenticate(loginRequest.email, loginRequest.password)
             if (response.isSuccessful){
-                LoginIsValid
+                LoginIsValid(data = response.body()!!.first())
             } else{
                 when(response.code()){
                     403 -> LoginIsWrong
