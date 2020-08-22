@@ -9,10 +9,18 @@
         android:label="LoginFragment">
         <action
             android:id="@+id/login_to_register"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/slide_out_right"/>
         <action
             android:id="@+id/login_to_forgot_password"
-            app:destination="@id/forgottenPasswordFragment" />
+            app:destination="@id/forgottenPasswordFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"

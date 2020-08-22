@@ -31,6 +31,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="login_to_forgot_password">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="login_to_register">
                               <value>
                                 <LayoutPositions />
@@ -46,8 +51,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="23" />
-                            <option name="y" value="103" />
+                            <option name="x" value="99" />
+                            <option name="y" value="177" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -79,6 +84,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_historyFragment_to_reservationFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -89,13 +99,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-326" />
-                            <option name="y" value="-389" />
+                            <option name="x" value="-291" />
+                            <option name="y" value="-870" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_homeFragment_to_historyFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_homeFragment_to_reservationFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -113,6 +128,20 @@
                             <option name="x" value="-22" />
                             <option name="y" value="-384" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_reservationFragment_to_historyFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_reservationFragment_to_homeFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
