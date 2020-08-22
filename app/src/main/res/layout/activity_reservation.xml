@@ -3,18 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/areservation_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/areservation_waiting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="64dp"
             app:cardCornerRadius="15dp"
@@ -49,10 +57,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="40dp"
-                    android:background="#000000"
+                    android:background="#00000000"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/areservation_tv_salle"
-                    app:srcCompat="@drawable/ic_event_note_white_18dp" />
+                    app:srcCompat="@drawable/ic_event_note_white_18dp"
+                    app:tint="#000000" />
 
                 <TextView
                     android:id="@+id/areservation_tv_date"
@@ -64,11 +73,12 @@
                     app:layout_constraintStart_toEndOf="@id/areservation_img_date"
                     app:layout_constraintTop_toTopOf="@id/areservation_img_date" />
 
-                <Spinner
+                <TextView
                     android:id="@+id/areservation_spinner_date"
                     android:layout_width="125dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/custom_border_tv"
+                    android:gravity="center"
                     app:layout_constraintBottom_toBottomOf="@id/areservation_spinner_nbrpers"
                     app:layout_constraintStart_toStartOf="@id/areservation_img_date"
                     app:layout_constraintTop_toTopOf="@id/areservation_spinner_nbrpers" />
@@ -77,9 +87,8 @@
                     android:id="@+id/areservation_img_effect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     app:layout_constraintBottom_toBottomOf="@id/areservation_img_date"
-                    app:layout_constraintEnd_toStartOf="@id/areservation_tv_nbrpers"
+                    app:layout_constraintStart_toStartOf="@+id/areservation_spinner_nbrpers"
                     app:layout_constraintTop_toTopOf="@id/areservation_img_date"
                     app:srcCompat="@drawable/ic_group_black_18dp" />
 
@@ -87,25 +96,28 @@
                     android:id="@+id/areservation_tv_nbrpers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="16dp"
                     android:text="Nombre de \npersonnes"
                     app:layout_constraintBottom_toBottomOf="@+id/areservation_img_effect"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/areservation_img_effect"
                     app:layout_constraintTop_toTopOf="@+id/areservation_img_effect" />
 
                 <Spinner
                     android:id="@+id/areservation_spinner_nbrpers"
                     android:layout_width="125dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="@id/areservation_tv_nbrpers"
-                    app:layout_constraintTop_toBottomOf="@id/areservation_tv_nbrpers" />
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/custom_border_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/areservation_tv_nbrpers"
+                    app:layout_goneMarginEnd="16dp" />
 
                 <ImageView
                     android:id="@+id/areservation_img_startHour"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="48dp"
                     app:layout_constraintStart_toStartOf="@id/areservation_img_date"
                     app:layout_constraintTop_toBottomOf="@id/areservation_spinner_date"
                     app:srcCompat="@drawable/ic_hourglass_top_black_18dp" />
@@ -123,8 +135,9 @@
                 <Spinner
                     android:id="@+id/areservation_spinner_starthour"
                     android:layout_width="125dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginTop="16dp"
+                    android:background="@drawable/custom_border_tv"
                     app:layout_constraintStart_toStartOf="@id/areservation_img_startHour"
                     app:layout_constraintTop_toBottomOf="@id/areservation_tv_starthour" />
 
@@ -132,7 +145,7 @@
                     android:id="@+id/areservation_img_endHour"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="48dp"
                     app:layout_constraintEnd_toEndOf="@+id/areservation_img_effect"
                     app:layout_constraintStart_toStartOf="@id/areservation_img_effect"
                     app:layout_constraintTop_toBottomOf="@id/areservation_spinner_date"
@@ -142,25 +155,27 @@
                     android:id="@+id/areservation_tv_endhour"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="16dp"
                     android:text="Heure de fin"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/areservation_spinner_nbrpers" />
+                    app:layout_constraintBottom_toBottomOf="@id/areservation_img_endHour"
+                    app:layout_constraintStart_toEndOf="@+id/areservation_img_endHour"
+                    app:layout_constraintTop_toTopOf="@id/areservation_img_endHour" />
 
                 <Spinner
                     android:id="@+id/areservation_spinner_endhour"
                     android:layout_width="125dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="@id/areservation_tv_endhour"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/custom_border_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/areservation_tv_endhour" />
 
                 <ImageView
                     android:id="@+id/areservation_img_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="48dp"
                     app:layout_constraintStart_toStartOf="@id/areservation_img_date"
                     app:layout_constraintTop_toBottomOf="@id/areservation_spinner_starthour"
                     app:srcCompat="@drawable/ic_sort_by_alpha_24px" />
@@ -199,7 +214,7 @@
                     android:id="@+id/areservation_validate_btn"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="16dp"
                     android:background="@drawable/custom_button"
                     android:text="Réserver"
                     android:textColor="@android:color/white"
@@ -211,7 +226,7 @@
                     android:id="@+id/areservation_decline_btn"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="32dp"
                     android:background="@drawable/custom_button"
                     android:backgroundTint="@android:color/holo_red_dark"
                     android:text="Annuler"

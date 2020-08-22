@@ -21,4 +21,7 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector
     internal abstract fun contributeReservationActivity(): ReservationActivity
+
+    @ContributesAndroidInjector
+    internal abstract fun contributeProfileActivity(): ProfileActivity
 }
