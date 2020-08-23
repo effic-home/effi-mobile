@@ -7,8 +7,16 @@ import com.efficom.efid.data.model.Room
 sealed class RoomApiReturn
 
 data class RoomList(val data: List<Room>): RoomApiReturn()
+
 data class ReservedRoomList(val data: List<ReservedRoom>): RoomApiReturn()
-object ErrorRoomApi : RoomApiReturn()
+
 data class ReserveList(val data: List<Reservation>): RoomApiReturn()
 object SuccessReserve: RoomApiReturn()
-object NoInternet: RoomApiReturn()
+
+sealed class ErrorRoomApiReturn : RoomApiReturn()
+object GenericError: ErrorRoomApiReturn()
+object NoRoomAvailable: ErrorRoomApiReturn()
+object NoReservationAvailable: ErrorRoomApiReturn()
+object ReservationFailed: ErrorRoomApiReturn()
+object BadRequest: ErrorRoomApiReturn()
+object NoInternet: ErrorRoomApiReturn()

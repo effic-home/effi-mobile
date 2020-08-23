@@ -1,6 +1,7 @@
 package com.efficom.efid.ui.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -38,6 +39,10 @@ class MainActivity : BaseActivity() {
                 val intent = Intent(this, ProfileActivity::class.java)
                 startActivity(intent)
                 finish()
+            }
+            it.customView.menu_logo.setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://effid.apollonian.fr/login.php"))
+                startActivity(intent)
             }
         }
 

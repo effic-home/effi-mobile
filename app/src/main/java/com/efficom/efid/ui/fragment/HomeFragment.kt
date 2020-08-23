@@ -54,18 +54,19 @@ class HomeFragment: BaseFragment() {
             home_refresh_layout.isRefreshing = false
             home_no_place.visibility = View.VISIBLE
             home_no_place.z = 10F
-            if (isInternetAvailable()){
-                displayMainErrorMessage(it)
-            }
-            else{
-                displayMainErrorMessage(NoInternet)
-            }
+            displayMainErrorMessage(it)
+
 
         })
 
         home_refresh_layout.setOnRefreshListener {
             viewModel.getOpenRoom()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.getOpenRoom()
     }
 
     private fun setupDate(){

@@ -24,11 +24,15 @@ class RoomRepository @Inject constructor(private val roomApi: RoomApi) {
                 RoomList(data = response.body()!!)
             }
             else {
-                ErrorRoomApi
+                when(response.code()){
+                    400 -> BadRequest
+                    500 -> NoRoomAvailable
+                    else -> GenericError
+                }
             }
         } catch (e: Exception) {
             Timber.e(e)
-            ErrorRoomApi
+            GenericError
         }
     }
 
@@ -39,14 +43,18 @@ class RoomRepository @Inject constructor(private val roomApi: RoomApi) {
                 if (response.isSuccessful){
                     ReserveList(response.body()!!)
                 }else {
-                    ErrorRoomApi
+                    when(response.code()){
+                        400 -> BadRequest
+                        500 -> NoReservationAvailable
+                        else -> GenericError
+                    }
                 }
             }catch (e: Exception) {
                 Timber.e(e)
-                ErrorRoomApi
+                GenericError
             }
         }
-        return ErrorRoomApi
+        return GenericError
     }
 
     suspend fun getFreeRoomByDate(date: String): RoomApiReturn {
@@ -55,11 +63,15 @@ class RoomRepository @Inject constructor(private val roomApi: RoomApi) {
             if (response.isSuccessful){
                 ReservedRoomList(response.body()!!)
             }else {
-                ErrorRoomApi
+                when(response.code()){
+                    400 -> BadRequest
+                    500 -> NoRoomAvailable
+                    else -> GenericError
+                }
             }
         }catch (e: Exception) {
             Timber.e(e)
-            ErrorRoomApi
+            GenericError
         }
     }
 
@@ -69,11 +81,15 @@ class RoomRepository @Inject constructor(private val roomApi: RoomApi) {
             if (response.isSuccessful){
                 RoomList(response.body()!!)
             }else {
-                ErrorRoomApi
+                when(response.code()){
+                    400 -> BadRequest
+                    500 -> NoRoomAvailable
+                    else -> GenericError
+                }
             }
         }catch (e: Exception) {
             Timber.e(e)
-            ErrorRoomApi
+            GenericError
         }
     }
 
@@ -83,11 +99,15 @@ class RoomRepository @Inject constructor(private val roomApi: RoomApi) {
             if (response.isSuccessful){
                 SuccessReserve
             }else {
-                ErrorRoomApi
+                when(response.code()){
+                    400 -> BadRequest
+                    500 -> ReservationFailed
+                    else -> GenericError
+                }
             }
         }catch (e: Exception){
             Timber.e(e)
-            ErrorRoomApi
+            GenericError
         }
     }
 

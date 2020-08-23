@@ -1,6 +1,10 @@
 package com.efficom.efid.viewmodel
 
 import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.efficom.efid.data.model.Reservation
@@ -37,81 +41,130 @@ class RoomViewModel @Inject constructor(private val app: Application,
     private val _inProcess = MutableLiveData<Boolean>()
     val inProcess = _inProcess
 
-    init {
-        getOpenRoom()
-        getOldReserv()
-    }
-
     fun getOpenRoom(){
-        GlobalScope.launch(Dispatchers.IO) {
-            roomRepository.getFreeRoom().let {response ->
-                when(response){
-                    is RoomList -> _freeRoomList.postValue(response.data)
-                    is ErrorRoomApi -> _error.postValue(ErrorRoomApi)
+        if (isInternetAvailable()){
+            GlobalScope.launch(Dispatchers.IO) {
+                roomRepository.getFreeRoom().let {response ->
+                    when(response){
+                        is RoomList -> _freeRoomList.postValue(response.data)
+                        is ErrorRoomApiReturn -> _error.postValue(response)
+                    }
                 }
             }
+        }else{
+            _error.postValue(NoInternet)
         }
+
     }
 
     fun getOldReserv(){
-        GlobalScope.launch(Dispatchers.IO) {
-            roomRepository.getOldReserve().let { response ->
-                when(response){
-                    is ReserveList -> _oldReserve.postValue(response.data)
-                    is ErrorRoomApi -> _error.postValue(ErrorRoomApi)
+        if (isInternetAvailable()){
+            GlobalScope.launch(Dispatchers.IO) {
+                roomRepository.getOldReserve().let { response ->
+                    when(response){
+                        is ReserveList -> _oldReserve.postValue(response.data)
+                        is ErrorRoomApiReturn -> _error.postValue(response)
+                    }
                 }
             }
+        }else{
+            _error.postValue(NoInternet)
         }
     }
 
     fun getFreeRoomByDate(date: String){
-        GlobalScope.launch(Dispatchers.IO) {
-            roomRepository.getFreeRoomByDate(date).let {response ->
-                when(response){
-                    is  ReservedRoomList -> getAllFreeRoom(response.data)
-                    is  ErrorRoomApi ->_error.postValue(ErrorRoomApi)
+        if (isInternetAvailable()){
+            GlobalScope.launch(Dispatchers.IO) {
+                roomRepository.getFreeRoomByDate(date).let {response ->
+                    when(response){
+                        is  ReservedRoomList -> getAllFreeRoom(response.data)
+                        is  ErrorRoomApiReturn ->_error.postValue(response)
+                    }
                 }
             }
+        }else{
+            _error.postValue(NoInternet)
         }
     }
 
     private fun getAllFreeRoom(reservedRoom: List<ReservedRoom>){
-        GlobalScope.launch(Dispatchers.IO) {
-            roomRepository.getRoom().let { response ->
-                when(response){
-                    is RoomList -> {
-                        if (reservedRoom.isNullOrEmpty()){
-                            _freeRoomByDate.postValue(response.data)
-                        }
-                        else{
-                            val reservedRoomList = mutableListOf<Room>()
-                            reservedRoomList.addAll(response.data)
-                            reservedRoom.forEach { reservedRoom ->
-                                response.data.forEach { room ->
-                                    if (reservedRoom.id_salle == room.id_salle){
-                                        reservedRoomList.remove(room)
+        if (isInternetAvailable()){
+            GlobalScope.launch(Dispatchers.IO) {
+                roomRepository.getRoom().let { response ->
+                    when(response){
+                        is RoomList -> {
+                            if (reservedRoom.isNullOrEmpty()){
+                                _freeRoomByDate.postValue(response.data)
+                            }
+                            else{
+                                val reservedRoomList = mutableListOf<Room>()
+                                reservedRoomList.addAll(response.data)
+                                reservedRoom.forEach { reservedRoom ->
+                                    response.data.forEach { room ->
+                                        if (reservedRoom.id_salle == room.id_salle){
+                                            reservedRoomList.remove(room)
+                                        }
                                     }
+                                }.let {
+                                    _freeRoomByDate.postValue(reservedRoomList)
                                 }
-                            }.let {
-                                _freeRoomByDate.postValue(reservedRoomList)
                             }
                         }
+                        is ErrorRoomApiReturn -> _error.postValue(response)
                     }
-                    is ErrorRoomApi -> _error.postValue(response)
                 }
             }
+        }else{
+            _error.postValue(NoInternet)
         }
+
     }
 
     fun reserveRoom(reservation: ReservationRequest){
-        GlobalScope.launch(Dispatchers.IO) {
-            roomRepository.reserveRoom(reservation).let {response ->
-                when(response){
-                    is SuccessReserve -> _successReserve.postValue(true)
-                    is ErrorRoomApi -> _error.postValue(response)
+        if (isInternetAvailable()){
+            GlobalScope.launch(Dispatchers.IO) {
+                roomRepository.reserveRoom(reservation).let {response ->
+                    when(response){
+                        is SuccessReserve -> _successReserve.postValue(true)
+                        is ErrorRoomApiReturn -> _error.postValue(response)
+                    }
+                    _inProcess.postValue(true)
                 }
-                _inProcess.postValue(true)
+            }
+        }else{
+            _error.postValue(NoInternet)
+        }
+
+    }
+
+    private fun isInternetAvailable(): Boolean {
+        var result = false
+        val connectivityManager =
+            app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val networkCapabilities = connectivityManager.activeNetwork ?: return false
+            val actNw =
+                connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+            result = when {
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                else -> false
+            }
+        } else {
+            connectivityManager.run {
+                connectivityManager.activeNetworkInfo?.run {
+                    result = when (type) {
+                        ConnectivityManager.TYPE_WIFI -> true
+                        ConnectivityManager.TYPE_MOBILE -> true
+                        ConnectivityManager.TYPE_ETHERNET -> true
+                        else -> false
+                    }
+
+                }
             }
         }
+
+        return result
     }
 }

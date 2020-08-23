@@ -3,6 +3,7 @@ package com.efficom.efid.ui.fragment
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Typeface
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -57,7 +58,7 @@ class LoginFragment: BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.hide()
         setupClickOutside(login_layout)
-        //setupUrl()
+        login_title.setTypeface(null, Typeface.BOLD)
 
         viewModel.canConnectUser.observe(viewLifecycleOwner, Observer {
             if (saveUser(it)){

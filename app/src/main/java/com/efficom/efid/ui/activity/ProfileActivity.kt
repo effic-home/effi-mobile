@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Typeface
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import com.efficom.efid.R
 import com.efficom.efid.data.model.User
@@ -26,6 +27,10 @@ class ProfileActivity: BaseActivity() {
 
         supportActionBar?.hide()
         profile_title.setTypeface(null, Typeface.BOLD)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
         profile_logout.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)

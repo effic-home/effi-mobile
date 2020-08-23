@@ -54,6 +54,11 @@ class HistoryFragment: BaseFragment() {
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.getOldReserv()
+    }
+
     private fun setupOldReserve(data: List<Reservation>) {
 
         if (data.isEmpty()){
