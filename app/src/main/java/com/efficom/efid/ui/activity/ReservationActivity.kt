@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_reservation.*
 import kotlinx.android.synthetic.main.menu_custom_layout.view.*
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
@@ -40,6 +41,8 @@ class ReservationActivity: BaseActivity() {
 
     lateinit var viewModel: RoomViewModel
     val reservationRequest = ReservationRequest()
+
+    lateinit var date:Date
 
     val hourMap = mutableMapOf<String, Date>()
 
@@ -62,7 +65,7 @@ class ReservationActivity: BaseActivity() {
             areservation_tv_salle.text = "Salle ${viewModel.actualRoom.numero_salle}"
 
             val bundleDate = it["selectedDate"] as String
-            val date = Gson().fromJson(bundleDate, Date::class.java)
+            date = Gson().fromJson(bundleDate, Date::class.java)
             val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val format2 = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
 
@@ -82,6 +85,7 @@ class ReservationActivity: BaseActivity() {
         })
         viewModel.error.observe(this, androidx.lifecycle.Observer {
             displayErrorMessage(it)
+            setSpinnerVisibility()
         })
         viewModel.inProcess.observe(this, androidx.lifecycle.Observer {
             setSpinnerVisibility()
@@ -106,6 +110,8 @@ class ReservationActivity: BaseActivity() {
         areservation_spinner_nbrpers.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listOfPers)
 
         val calendar = Calendar.getInstance()
+        val localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+        calendar.set(localDate.year, localDate.monthValue, localDate.dayOfMonth)
         calendar.set(Calendar.HOUR_OF_DAY, 8)
         calendar.set(Calendar.MINUTE, 0)
 
@@ -163,13 +169,13 @@ class ReservationActivity: BaseActivity() {
     private fun displayPopUp(){
         val builder = AlertDialog.Builder(this)
         builder.setMessage("C'EST GAGNE !")
-        builder.setPositiveButton(""){dialog, which ->
+        builder.setPositiveButton("OK"){dialog, which ->
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
-
-        builder.show()
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun displayErrorMessage(error: RoomApiReturn){

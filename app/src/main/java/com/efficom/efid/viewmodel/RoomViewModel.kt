@@ -80,15 +80,21 @@ class RoomViewModel @Inject constructor(private val app: Application,
             roomRepository.getRoom().let { response ->
                 when(response){
                     is RoomList -> {
-                        val reservedRoomList = mutableListOf<Room>()
-                        reservedRoom.forEach { reservedRoom ->
-                            response.data.forEach { room ->
-                                if (reservedRoom.id_salle != room.id_salle){
-                                    reservedRoomList.add(room)
+                        if (reservedRoom.isNullOrEmpty()){
+                            _freeRoomByDate.postValue(response.data)
+                        }
+                        else{
+                            val reservedRoomList = mutableListOf<Room>()
+                            reservedRoomList.addAll(response.data)
+                            reservedRoom.forEach { reservedRoom ->
+                                response.data.forEach { room ->
+                                    if (reservedRoom.id_salle == room.id_salle){
+                                        reservedRoomList.remove(room)
+                                    }
                                 }
+                            }.let {
+                                _freeRoomByDate.postValue(reservedRoomList)
                             }
-                        }.let {
-                            _freeRoomByDate.postValue(reservedRoomList)
                         }
                     }
                     is ErrorRoomApi -> _error.postValue(response)

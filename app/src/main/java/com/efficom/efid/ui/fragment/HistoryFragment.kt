@@ -44,6 +44,7 @@ class HistoryFragment: BaseFragment() {
         viewModel.error.observe(viewLifecycleOwner, Observer {
             history_no_place.visibility = View.VISIBLE
             history_no_place.z = 10F
+            history_refreshlayout.isRefreshing = false
             if (isInternetAvailable()){
                 displayMainErrorMessage(it)
             }
@@ -60,7 +61,7 @@ class HistoryFragment: BaseFragment() {
             history_no_place.z = 10F
         } else{
             val viewManager = LinearLayoutManager(context)
-            val viewAdapter = ReserveAdapter(data)
+            val viewAdapter = ReserveAdapter(data, requireContext())
 
             history_recycler_view.apply {
                 setHasFixedSize(true)

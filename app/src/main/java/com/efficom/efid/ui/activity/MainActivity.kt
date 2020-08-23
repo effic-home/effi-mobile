@@ -13,6 +13,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.efficom.efid.R
 import com.efficom.efid.ui.fragment.HomeFragmentDirections
+import com.google.android.material.internal.NavigationMenuItemView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_custom_layout.view.*
 
