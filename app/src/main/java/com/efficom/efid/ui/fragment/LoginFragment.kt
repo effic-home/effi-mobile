@@ -85,6 +85,8 @@ class LoginFragment: BaseFragment() {
     private fun saveUser(user: User): Boolean{
         val editor = sharedPreferences.edit()
         editor.putString("user", Gson().toJson(user))
+        editor.putBoolean("isConnected", login_checkBox.isChecked)
+
         return editor.commit()
     }
 

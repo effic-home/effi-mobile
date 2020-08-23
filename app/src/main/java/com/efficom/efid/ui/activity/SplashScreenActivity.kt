@@ -1,12 +1,17 @@
 package com.efficom.efid.ui.activity
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.view.Window
 import com.efficom.efid.R
+import javax.inject.Inject
 
 class SplashScreenActivity: BaseActivity() {
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,17 +21,17 @@ class SplashScreenActivity: BaseActivity() {
         supportActionBar?.hide()
 
         Handler().postDelayed(Runnable {
-            isJwtAvailable()
+            isAlreadyConnected()
         }, 3000)
     }
 
 
-    private fun isJwtAvailable() {
-        if (false){
-            redirectTo(LoginActivity::class.java)
+    private fun isAlreadyConnected() {
+        if (sharedPreferences.getBoolean("isConnected", false)){
+            redirectTo(MainActivity::class.java)
         }
         else {
-            redirectTo(MainActivity::class.java)
+            redirectTo(LoginActivity::class.java)
         }
     }
 

@@ -1,8 +1,11 @@
 package com.efficom.efid.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.efficom.efid.R
 import com.efficom.efid.data.model.Reservation
@@ -15,9 +18,15 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+import javax.inject.Inject
 
 class ReserveAdapter(var data: List<Reservation>) :
     RecyclerView.Adapter<ReserveAdapter.MyViewHolder>() {
+
+    @Inject
+    lateinit var context: Context
+
+    private val calendar = Calendar.getInstance()
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = MyViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_reserved_room, parent, false)
@@ -30,17 +39,37 @@ class ReserveAdapter(var data: List<Reservation>) :
         if (position == itemCount-1){
             holder.itemView.item_divider.visibility = View.GONE
         }
+
+        if (getDateFromString(data[position].date) > calendar.time){
+            val color = ContextCompat.getColor(context, android.R.color.holo_orange_light)
+            holder.itemView.item_image.setBackgroundColor(color)
+        }else{
+            val color = ContextCompat.getColor(context, android.R.color.holo_green_light)
+            holder.itemView.item_image.setBackgroundColor(color)
+        }
+    }
+
+    private fun getDateFromString(date: String): Date{
+        val finalDate = Calendar.getInstance()
+        val localDate =  LocalDate.parse(date, DateTimeFormatter.ISO_DATE)
+        finalDate.set(Calendar.DAY_OF_MONTH, localDate.dayOfMonth)
+        finalDate.set(Calendar.MONTH, localDate.monthValue)
+        finalDate.set(Calendar.YEAR, localDate.year)
+
+        return finalDate.time
     }
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val tv_room = view.item_tv_room
         private val tv_descr = view.item_tv_descr
         private val tv_date = view.item_tv_date
+        private val tv_hour = view.item_tv_hour
 
         fun bind(item: Reservation) {
             tv_room.text = "Salle ${item.numero_salle}"
             tv_descr.text = item.intitule.capitalize()
             tv_date.text = formatDate(item.date).capitalize()
+            tv_hour.text = "${item.heure_debut} - ${item.heure_fin}"
         }
 
         private fun formatDate(date: String): String{
