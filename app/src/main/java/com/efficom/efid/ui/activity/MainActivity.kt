@@ -1,5 +1,6 @@
 package com.efficom.efid.ui.activity
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -32,6 +33,11 @@ class MainActivity : BaseActivity() {
         supportActionBar?.let {
             it.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
             it.setCustomView(R.layout.menu_custom_layout)
+            it.customView.menu_settings.setOnClickListener {
+                val intent = Intent(this, ProfileActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
 
         bottom_nav_bar.setOnNavigationItemSelectedListener {item ->

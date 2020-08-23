@@ -23,6 +23,8 @@ import java.util.*
 class HomeFragment: BaseFragment() {
 
     lateinit var viewModel: RoomViewModel
+    lateinit var date: Date
+    private val format = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,8 +69,7 @@ class HomeFragment: BaseFragment() {
     }
 
     private fun setupDate(){
-        val date = Calendar.getInstance().time
-        val format = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+        date = Calendar.getInstance().time
         home_tv_date.text = format.format(date)
         home_tv_date.setTypeface(null, Typeface.BOLD)
     }
@@ -81,7 +82,7 @@ class HomeFragment: BaseFragment() {
         }
         else{
             val viewManager = LinearLayoutManager(context)
-            val viewAdapter = RoomAdapter(rooms.take(5), requireContext())
+            val viewAdapter = RoomAdapter(rooms.take(5), requireContext(), date)
 
             home_recycler_view.apply {
                 setHasFixedSize(true)

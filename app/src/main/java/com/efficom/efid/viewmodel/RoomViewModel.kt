@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.efficom.efid.data.model.Reservation
 import com.efficom.efid.data.model.ReservedRoom
 import com.efficom.efid.data.model.Room
+import com.efficom.efid.data.model.request.ReservationRequest
 import com.efficom.efid.data.model.sealedClass.*
 import com.efficom.efid.data.repository.RoomRepository
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +30,12 @@ class RoomViewModel @Inject constructor(private val app: Application,
 
     private val _freeRoomByDate = MutableLiveData<List<Room>>()
     val freeRoomByDate = _freeRoomByDate
+
+    private val _successReserve = MutableLiveData<Boolean>()
+    val successReserve = _successReserve
+
+    private val _inProcess = MutableLiveData<Boolean>()
+    val inProcess = _inProcess
 
     init {
         getOpenRoom()
@@ -76,7 +83,7 @@ class RoomViewModel @Inject constructor(private val app: Application,
                         val reservedRoomList = mutableListOf<Room>()
                         reservedRoom.forEach { reservedRoom ->
                             response.data.forEach { room ->
-                                if (reservedRoom.id_salle != room.id_classe){
+                                if (reservedRoom.id_salle != room.id_salle){
                                     reservedRoomList.add(room)
                                 }
                             }
@@ -86,6 +93,18 @@ class RoomViewModel @Inject constructor(private val app: Application,
                     }
                     is ErrorRoomApi -> _error.postValue(response)
                 }
+            }
+        }
+    }
+
+    fun reserveRoom(reservation: ReservationRequest){
+        GlobalScope.launch(Dispatchers.IO) {
+            roomRepository.reserveRoom(reservation).let {response ->
+                when(response){
+                    is SuccessReserve -> _successReserve.postValue(true)
+                    is ErrorRoomApi -> _error.postValue(response)
+                }
+                _inProcess.postValue(true)
             }
         }
     }

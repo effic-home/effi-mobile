@@ -3,6 +3,7 @@ package com.efficom.efid.data.repository
 import android.content.SharedPreferences
 import android.util.Log
 import com.efficom.efid.data.model.User
+import com.efficom.efid.data.model.request.ReservationRequest
 import com.efficom.efid.data.model.sealedClass.*
 import com.efficom.efid.data.network.RoomApi
 import com.google.gson.Gson
@@ -71,6 +72,20 @@ class RoomRepository @Inject constructor(private val roomApi: RoomApi) {
                 ErrorRoomApi
             }
         }catch (e: Exception) {
+            Timber.e(e)
+            ErrorRoomApi
+        }
+    }
+
+    suspend fun reserveRoom(reservation: ReservationRequest): RoomApiReturn{
+        return try {
+            val response = roomApi.reserveRoom(reservation)
+            if (response.isSuccessful){
+                SuccessReserve
+            }else {
+                ErrorRoomApi
+            }
+        }catch (e: Exception){
             Timber.e(e)
             ErrorRoomApi
         }

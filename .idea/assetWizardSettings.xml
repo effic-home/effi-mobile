@@ -14,8 +14,13 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
+<<<<<<< HEAD
                             <entry key="outputName" value="ic_today_24px" />
                             <entry key="sourceFile" value="$USER_HOME$/Downloads/today-24px.svg" />
+=======
+                            <entry key="outputName" value="ic_person_black_18dp" />
+                            <entry key="sourceFile" value="C:\Users\Fallo\Downloads\person-black-18dp.svg" />
+>>>>>>> develop
                           </map>
                         </option>
                       </PersistentState>

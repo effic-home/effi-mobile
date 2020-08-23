@@ -29,6 +29,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.ReservationActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.ProfileActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

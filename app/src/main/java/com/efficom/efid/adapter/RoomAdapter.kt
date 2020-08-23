@@ -14,9 +14,10 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.item_free_room.view.*
 import kotlinx.android.synthetic.main.item_textview.view.*
 import kotlinx.android.synthetic.main.item_textview.view.textView
+import java.util.*
 import javax.inject.Inject
 
-class RoomAdapter(val data: List<Room>, val context: Context) :
+class RoomAdapter(val data: List<Room>, val context: Context, val date: Date) :
     RecyclerView.Adapter<RoomAdapter.MyViewHolder>() {
 
 
@@ -34,7 +35,8 @@ class RoomAdapter(val data: List<Room>, val context: Context) :
 
         holder.itemView.item_button_reserve.setOnClickListener {
             val intent = Intent(context, ReservationActivity::class.java)
-            intent.putExtra("actualRoom",Gson().toJson(data[position]))
+            intent.putExtra("actualRoom", Gson().toJson(data[position]))
+            intent.putExtra("selectedDate", Gson().toJson(date))
             context.startActivity(intent)
         }
     }
@@ -43,7 +45,7 @@ class RoomAdapter(val data: List<Room>, val context: Context) :
         private val textView = view.item_textView
 
         fun bind(item: Room) {
-            textView.text = item.numero_salle.capitalize()
+            textView.text = "Salle ${item.numero_salle}"
         }
     }
 }

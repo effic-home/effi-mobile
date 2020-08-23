@@ -29,6 +29,7 @@ class ReservationFragment: BaseFragment() {
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             updateLabel()
         }
+    private val formatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,7 +69,6 @@ class ReservationFragment: BaseFragment() {
     }
 
     private fun updateLabel(){
-        val formatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         val datePick = formatter.format(calendar.time)
         reserve_tv_date.setText(datePick)
         viewModel.getFreeRoomByDate(datePick)
@@ -76,7 +76,7 @@ class ReservationFragment: BaseFragment() {
 
     private fun setupFreeRoomList(rooms: List<Room>){
         val viewManager = LinearLayoutManager(context)
-        val viewAdapter = RoomAdapter(rooms, requireContext())
+        val viewAdapter = RoomAdapter(rooms, requireContext(), calendar.time)
 
 
         reserve_recycler.apply {
